@@ -1,0 +1,7 @@
+\babel@toc {croatian}{}
+\contentsline {section}{\numberline {1}Tipovi i objekti}{2}{}%
+\contentsline {section}{\numberline {2}Reference}{5}{}%
+\contentsline {section}{\numberline {3}Semantika}{8}{}%
+\contentsline {section}{\numberline {4}Smart Pokazivači}{10}{}%
+\contentsline {section}{\numberline {5}Nasljeđivanje}{12}{}%
+\contentsfinish 

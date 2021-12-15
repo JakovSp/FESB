@@ -1,0 +1,288 @@
+\documentclass{article}
+
+\usepackage[T1]{fontenc}
+\usepackage[utf8]{inputenc}
+\usepackage{a4wide}
+\usepackage{xcolor}
+\usepackage{listings}
+%\usepackage{listingsutf8}
+%\usepackage{lmodern}
+\usepackage[croatian]{babel}
+\usepackage{titlesec}
+\usepackage{titletoc}
+\usepackage{graphicx}
+\usepackage{caption}
+\usepackage[tikz]{mdframed}
+\usepackage{subcaption}
+\usepackage{AnonymousPro}
+
+\renewcommand{\rmdefault}{cmr}
+\renewcommand{\ttdefault}{AnonymousPro}
+\renewcommand{\figurename}{Slika}
+\setlength{\fboxsep}{0pt}
+\setlength{\parindent}{0pt}
+\definecolor{code}{RGB}{255,255,200}
+\definecolor{console}{RGB}{225,225,225}
+\definecolor{comment}{RGB}{100,100,100}
+%\DeclareTextFontCommand{\emph}{\bfseries\em}
+
+\newcommand{\localtextbulletone}{\textcolor{black}{\raisebox{.45ex}{\rule{.6ex}{.6ex}}}}
+
+\input{captionstyles.def}
+\input{listingstyles.def}
+
+\newcommand{\reflst}[2]{%
+	\ref{sec:#1}.\ref{lst:#2}.
+}
+
+\newcommand{\QandA}[2]{
+	\vspace{2.5em}
+	\localtextbulletone \hspace{2pt} {\bf #1}
+
+	\vspace{1em}
+	#2}
+
+\titlelabel{\thetitle.\quad}
+\titleformat{\section}
+{\huge\bfseries\large}
+{\thesection.}
+{0.5 em}
+{}
+
+\titleformat{\subsection}
+{\bfseries}
+{\thesubsection}
+{0.5em}
+{}
+
+\newcommand{\tottf}[1]{%
+	{\fontfamily{AnonymousPro}\selectfont#1}}
+
+\newcommand{\codedir}{C:/Users/Jakov/FESB/2. semestar/3D simulacije/Izvještaji/vjezba1}
+
+\title{Vježba 1}
+\author{Jakov Spahija}
+\begin{document}
+\maketitle
+\vspace{10em}
+\tableofcontents
+\pagebreak
+\vspace{2em}
+
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\section{Tipovi i objekti}
+\label{sec:tio}
+\setcounter{lstlisting}{0}
+
+U uvodnoj vježbi, izvode se objektno orijentirane mogućnosti C++. Deklaracija te overload-nje funckija, klasa.
+
+
+U header datoteci \tottf{Circle.h} definiran je objekt \tottf{Circle} koji se sastoji of:
+\begin{itemize}
+	\item član {\bf{\tottf{double}}} \tottf{\_radius}
+	\item konstruktorom koji postavlja jedinstvenu varijablu tipa {\bf{\tottf{double}}} na \tottf{1}.\tottf{0}
+	\item konstantna, virtualna member funckija \tottf{Area} koja vraća {\bf\tottf{double}}
+	\item konstantna, virtualna member funckija \tottf{ToString} koja vraća {\bf\tottf{wstring}}
+	\item virtualni destruktor 
+\end{itemize}
+
+\begin{codelisting}
+	\lstinputlisting[style=C++,caption=Circle.h,label=lst:circleh]{\codedir/Types and Objects/Circle.h}
+\end{codelisting}
+
+Također su deklarirane i 3 funkcije \tottf{f}, \tottf{g} i \tottf{h}.
+
+Definicija virtualnih funkcija klase, te ostale funkcije unutar \tottf{{\bf{namespace}} abc}, se odvija kasnije u datoteci \tottf{Circle.cpp} Prijepis \reflst{tio}{circlecpp}.
+
+\pagebreak
+
+\begin{codelisting}
+\lstinputlisting[style=C++,firstline=10,caption=Circle.cpp,label=lst:circlecpp]{\codedir/Types and Objects/Circle.cpp}
+\end{codelisting}
+
+{\bf What would happen if you were to create a non-dynamic object inside the function and return its address?}
+
+\vspace{1em}
+
+Životni vijek podataka deklariranih na stogu unutar nekog scope-a, traje za sve izraze unutar tog scope-a. Takav objekt će biti uništen/izbrisan.
+
+\pagebreak
+
+\begin{codesection}
+\lstinputlisting[style=stdout,caption=Terminal]{\codedir/Types and Objects/terminal.std}
+\end{codesection}
+
+\pagebreak
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\section{Reference}
+\label{sec:ref}
+\setcounter{lstlisting}{0}
+
+Izraz u C++ se karaterizira sa tipom i kategorijom vrijednosti. \emph{Rvalue}, \emph{lvalue} su nam najkorisnije kategorije za promatranje, dok su \emph{xvalue}(e{\bf x}piring), \emph{glvalue}({\bf g}lobal {\bf l}eft), \emph{prvalue}({\bf p}ure {\bf r}ight) primitivne kategorije.
+
+\begin{itemize}
+	\item \emph{xvalue} je tranzicijska kategorija vrijednosti, koja služi u produživanju životnog vijeka resursa. \tottf{std::move} vraća takav izraz.
+	\item \emph{lvalue}/\emph{rvalue} je \emph{glvalue}/\emph{prvalue} koji može biti i \emph{xvalue}, respektivno
+\end{itemize}
+
+
+\QandA%
+{What would happen if you were to increment the reference’s value?}%
+{Lijeva referenca je u ovom slučaju samo referenca koji nije promjenjiva.}
+\begin{codesection}
+\lstinputlisting[style=C++,caption=Something.h,firstline=19,lastline=22]{\codedir/References/Something.h}
+\end{codesection}
+
+\QandA%
+{What would happen if you were to add another pointer to \tottf{{\bf int}} and assign to it the address of expression 100? And if the pointer was a read-only pointer?}%
+{Takav izraz nije \emph{lvalue}, a ako je izraz read-only pokazivač onda se može pridjeliti}
+
+\begin{codesection}
+\lstinputlisting[style=C++,caption=Program.cpp,firstline=16,lastline=16]{\codedir/References/Program.cpp}
+\end{codesection}
+
+
+\QandA%
+{What would happen if you tried to assign something else to l?}%
+{Efektivno se pridjeli ta vrijednost, onoj lvalue na koju se l referencira, u ovom slučaju \tottf{v}}
+
+\QandA%
+{What would happen if you tried assigning v to a constant l-value reference to int?}%
+{Ako pridjelimo \tottf{v} nekakvoj \tottf{\textbf{const}} \tottf{int\&}, preko takve se reference neće moći mijenjati.}
+
+\pagebreak
+
+\QandA%
+{Increment l and output v’s value to the console. Can you assign 100 to an l-value reference to int?}%
+\begin{codesection}
+\lstinputlisting[style=C++,caption=Program.cpp,firstline=40,lastline=41]{\codedir/References/Program.cpp}
+\end{codesection}
+
+\QandA%
+{Add a constant l-value reference cl to 100. Can you increment cl?}%
+{\tottf{cl} nije definirana kao referenca preko koje možemo modificirati.}
+
+\QandA%
+{What would have happened had you uncommented the overloaded function prior to making calls to h?}%
+{Tijekom \emph{compile time}, kompajler odredi koju funkciju poziva. Pod \emph{overload resolution} kriterijima, spadaju i kategorije vrijednosti parametara. Ako je na jedini parametar proslijeđen \emph{lvalue} izraz onda se preferira funkcija sa definicijom parametra \emph{lvalue} reference(\tottf{\textbf{const} T\&}). Također vrijedi isto i za \emph{rvalue} izraz te referencu(\tottf{T\&\&}).}
+\begin{codesection}
+\lstinputlisting[style=C++,caption=Something.h,firstline=29,lastline=36]{\codedir/References/Something.h}
+\end{codesection}
+
+\pagebreak
+
+\begin{codesection}
+\lstinputlisting[style=stdout,caption=Terminal]{\codedir/References/terminal.std}
+\end{codesection}
+
+\pagebreak
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\section{Semantika}
+\label{sec:sem}
+\setcounter{lstlisting}{0}
+
+\emph{Copy} i \emph{Move} konstruktori (CC, MC), su inače implicitno definirani od strane kompajlera. Oni se pozivaju kad se objekt inicijalizira.
+\emph{Assignment} semantika specificra kako će se objektu, koji je već inicijaliziran, pridjeliti neka vrijednost.\\
+
+Ovakva konfiguracija konstruktora je postavljena da bi se, kad je predana kao argument, \emph{rvalue} referenca, primjeni \emph{move} semanitka, koja efektivno \textit{'krade'} resurse of objekta na koji referenca pokazuje.
+Inače, \emph{copy} semantika se primjenjuje u slučaju \emph{lvalue} reference.
+
+\emph{Overload resolution} odabire poziv funkcija na takav način.
+
+\begin{codesection}
+	\lstinputlisting[style=C++,caption=Something.h,firstline=9,lastline=12]{\codedir/Semantics/Something.h}
+\end{codesection}
+
+\begin{codelisting}
+	\lstinputlisting[style=C++,caption=Something.cpp Implementacija {CC,MC,CAO,MAO}]{\codedir/Semantics/Something.cpp}
+\end{codelisting}
+
+\begin{codesection}
+\lstinputlisting[style=stdout,caption=Terminal]{\codedir/Semantics/terminal.std}
+\end{codesection}
+
+\pagebreak
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\section{Smart Pokazivači}
+\label{sec:sptr}
+\setcounter{lstlisting}{0}
+
+\emph{Smart pointer} je klasa koja upravlja dinamički alociranim objektima(resursima) i pravilno ih oslobađa(briše).\\
+
+Tri najzastupljenija \emph{smart pointer}a su \emph{shared}, \emph{unique} i \emph{weak} pokazivači.
+\begin{itemize}
+	\item \emph{Shared} - održava pristup i zajedničko vlasništvo nad objektom preko pokazivača, tako da nekoliko \tottf{shared\_ptr} pokazivača mogu imati vlasništvo nad istim objektom.
+Takav objekt je oslobođen tek ako su svi \tottf{shared\_ptr} uništeni, ili nakon što zadnjem preostalom \tottf{shared\_ptr} pridjelimo neki drugi objekt. To je implementirano preko brojača - \emph{reference counting}
+	\item \emph{Unique} - ima jedinstveno vlasništvo nad objektom, koji se oslobađa kad se \tottf{unique\_ptr} uništi. Zbog toga što je jedinstven, primjenjuje se samo \emph{move} semantika(\textit{'krađa'})
+	\item \emph{Weak} - samo pokazuje na objekt bez vlasništva nad njim, te se ne broji(\emph{reference counting}).
+\end{itemize}
+
+\begin{codelisting}
+\lstinputlisting[style=C++,caption=Program.cpp,firstline=10,lastline=34]{\codedir/Smart Pointers/Program.cpp}
+\end{codelisting}
+
+\QandA%
+{What would happen if you were to call function Name on w?}%
+{\emph{Weak pointer} ne može pristupati member funkcijama}
+
+\pagebreak
+
+\QandA%
+{Cast u to an r-value and use it to initialize u1. Can you use u to initialize u1 without using std::move?}
+{Može postojati samo jedan \emph{unique pointer}, pa ga moramo \textit{"krasti"}.}
+
+\QandA%
+{Call the function Name on u2 and output the result. Can you call function Name on u1?}
+{Ne, jer smo ukrali od \tottf{u1}, a jedinstven je samo \tottf{u2}.}
+
+
+\begin{codesection}
+\lstinputlisting[style=stdout,caption=Terminal]{\codedir/Smart Pointers/terminal.std}
+\end{codesection}
+
+\pagebreak
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\section{Nasljeđivanje}
+\label{sec:nas}
+\setcounter{lstlisting}{0}
+
+Pomoću nasljeđivanja se kreira hijerarhija zaposlenika \tottf{Employee} koja služi kao baza za klase \tottf{Worker} i \tottf{Manager}.
+Unutar \tottf{Employee} imamo definiran kalup članskih funkcija pomoću \tottf{virtual} te \tottf{override} u izvedenim klasama.
+
+\begin{codelisting}
+\lstinputlisting[style=C++,caption=Employee.h,firstline=6,lastline=22]{\codedir/Generalization/Employee.h}
+\end{codelisting}
+\begin{codelisting}
+\lstinputlisting[style=C++,caption=Worker.h,firstline=5,lastline=33]{\codedir/Generalization/Worker.h}
+\end{codelisting}
+\begin{codelisting}
+\lstinputlisting[style=C++,caption=Manager.h,firstline=5,lastline=27]{\codedir/Generalization/Manager.h}
+\end{codelisting}
+
+\QandA%
+{Add a dynamic object of type Employee and assign it to a variable named employee. Can you assign employee to manager?}
+{Klasa Employee je baza izvedene klase Manager}
+\begin{codesection}
+\lstinputlisting[style=C++,caption=Manager.h,firstline=5,lastline=5]{\codedir/Generalization/Manager.h}
+\end{codesection}
+
+\pagebreak
+
+\QandA%
+{Delete the objects that pointers from the vector point to. What would happen if you tried to assign a wstring to a variable of type Employee?}
+{Konstruktor za Employee je explicit}
+
+\begin{codesection}
+\lstinputlisting[style=C++,caption=Employee.h,firstline=10,lastline=12]{\codedir/Generalization/Employee.h}
+\end{codesection}
+
+\begin{codesection}
+\lstinputlisting[style=stdout,caption=Terminal]{\codedir/Generalization/terminal.std}
+\end{codesection}
+
+\end{document}

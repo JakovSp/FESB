@@ -1,0 +1,10 @@
+﻿  compilation object save succeeded; see C:\Users\Jakov\FESB\2. semestar\3D Simulacije\Izvještaji\vjezba7\x64\Debug\Basic Shapes\PixelShader.cso
+  compilation object save succeeded; see C:\Users\Jakov\FESB\2. semestar\3D Simulacije\Izvještaji\vjezba7\x64\Debug\Basic Shapes\VertexShader.cso
+  pch.cpp
+  Application.cpp
+  Camera.cpp
+  Pipeline.cpp
+  Rendering.cpp
+  Scene.cpp
+C:\Users\Jakov\FESB\2. semestar\3D Simulacije\Izvještaji\vjezba7\Basic Shapes\Scene.cpp(31,56): warning C4244: 'argument': conversion from 'double' to 'float', possible loss of data
+  Basic Shapes.vcxproj -> C:\Users\Jakov\FESB\2. semestar\3D Simulacije\Izvještaji\vjezba7\x64\Debug\Basic Shapes\Basic Shapes.exe

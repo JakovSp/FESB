@@ -1,0 +1,37 @@
+v:2
+v:3
+
+l = u; u++;
+v:1
+l:1
+
+v = cl
+v:40
+
+l++
+v:41
+l = 100
+
+r++
+r:101
+
+ri2++
+ri2:81
+
+ri++
+ri:82
+Konstruktor je pozvan
+Vrijednost lref: 2
+Konstruktor je pozvan
+Vrijednost lref: 10
+Destruktor je pozvan
+Konstruktor je pozvan
+Vrijednost rref: 11
+Destruktor je pozvan
+Vrijednost rref: 3
+Vrijednost clref: 3
+Konstruktor je pozvan
+Vrijednost rref: 21
+Destruktor je pozvan
+Vrijednost rref: 4
+Destruktor je pozvan

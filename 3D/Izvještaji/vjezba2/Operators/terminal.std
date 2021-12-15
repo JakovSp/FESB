@@ -1,0 +1,19 @@
+Something konstruktor: 1
+Something konstruktor: 2
+Something konstruktor: 10
+Something konstruktor: 20
+
+SmartPtr::operator->()
+vrijednost: 10
+
+(*sq).m()
+SmartPtr::operator*()
+vrijednost: 20
+Something destruktor 20
+
+sp = sq
+SmartPtr::operator=()
+Something destruktor 20
+SmartPtr::operator->()
+vrijednost: 10
+Something destruktor 10

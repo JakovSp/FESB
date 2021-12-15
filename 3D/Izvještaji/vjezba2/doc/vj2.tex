@@ -1,0 +1,244 @@
+\input{~/Documents/LatexPresets/programming/preambule.tex}
+
+\newcommand{\basedir}{~/FESB/2. semestar/3D Simulacije/Izvještaji/vjezba2}
+\title{Vježba L01 II}
+\author{Jakov Spahija}
+
+\begin{document}
+\maketitle
+\tableofcontents
+\pagebreak
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\section{Interfaces}
+\label{sec:iface}
+
+Sučelje je apstraktna klasa samo sa čistim virtualnim funkcijama, bez ikakvog alociranog objekta. Predstavlja zahtjeve koje treba ispuniti objekt koji će implementirati korisnički kod.
+
+\begin{codesection}
+	\lstinputlisting[style=C++,firstline=5,lastline=11,caption=IAccount.h,label=lst:iacch]{\basedir/Interfaces/IAccount.h}
+\end{codesection}
+
+Svaka klasa koja implementira neko sučelje, mora zadovoljavati potpis funkcije definiranog unutar sučelja.\\
+Implementacija sučelja \tottf{IAccount} unutar druge datoteke:
+
+\begin{codelisting}
+	\lstinputlisting[style=C++, caption=Account.h, label=lst:acch]{\basedir/Interfaces/Account.h}
+\end{codelisting}
+
+
+\pagebreak
+\begin{codesection}
+	\lstinputlisting[style=stdout,caption=Terminal]{\basedir/Interfaces/terminal.std}
+\end{codesection}
+
+
+\pagebreak
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\section{Operators}
+\label{sec:ops}
+\setcounter{lstlisting}{0}
+
+\emph{Smart pointer}i iz prve vježbe implementiramo pomoću \emph{template} konstrukcija koja djeluje kao šablone i vežu za klasu, strukturu ili funckiju koja slijedi nakon definicije predloška.
+
+\begin{codelisting}
+	\lstinputlisting[style=C++,firstline=5,lastline=17,caption=Smart Pointer.h: Klasa,label=lst:sptrclass]{\basedir/Operators/Smart Pointer.h}
+\end{codelisting}
+
+Kod ove implementacije smart pokazivača, \emph{assignment} operator bi trebao 'ukrasti' na ono što pokazuje smart pokazivač sa desne strane jednakosti, efektivno koristeći \emph{move} semantiku.
+
+\begin{codesection}
+	\lstinputlisting[style=C++,firstline=19,lastline=28,caption={operator=()},label=lst:assignop]{\basedir/Operators/Smart Pointer.h}
+\end{codesection}
+
+\emph{Dereference} i \emph{arrow} operatori imaju svoje \tottf{\textbf{const}} verzije funkcija, kao što je navedeno u Prijepisu \reflst{ops}{sptrclass}
+
+\begin{codesection}
+	\lstinputlisting[style=C++,firstline=36,lastline=40,caption=operator*(),label=lst:defop]{\basedir/Operators/Smart Pointer.h}
+\end{codesection}
+
+\begin{codesection}
+	\lstinputlisting[style=C++,firstline=48,lastline=52,caption=operator->(),label=lst:strop]{\basedir/Operators/Smart Pointer.h}
+\end{codesection}
+
+\QandA
+{What would happen if you were to make another call to function m on sp?}
+{Zbog definicije \emph{assignment} operatora koji \emph{move} semantiku, \tottf{sp} pokazivaču je ukraden resurs na koji je pokazivao, te je pozvan destruktor za njega.}
+\begin{codesection}
+	\lstinputlisting[style=C++,firstline=23,lastline=25,caption=Program.cpp]{\basedir/Operators/Program.cpp}
+\end{codesection}
+
+\begin{codesection}
+	\lstinputlisting[style=stdout,caption=Terminal]{\basedir/Operators/terminal.std}
+\end{codesection}
+
+\pagebreak
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\section{Associations}
+\label{sec:assoc}
+\setcounter{lstlisting}{0}
+
+U ovom zadatku promatramo dvije asocijacije između \tottf{Boss} i \tottf{Mafia} klasa, te \tottf{Date} i \tottf{Person} klasa.
+
+\begin{codesection}
+	\lstinputlisting[style=C++,firstline=7,lastline=10,caption=Boss.h]{\basedir/Associations/Boss.h}
+\end{codesection}
+
+\begin{codelisting}
+	\lstinputlisting[style=C++,firstline=18,lastline=24,caption={Boss.h: Klasa Boss, veza na mafiju}]{\basedir/Associations/Boss.h}
+\end{codelisting}
+
+\begin{codelisting}
+	\lstinputlisting[style=C++,caption=Date.h]{\basedir/Associations/Date.h}
+\end{codelisting}
+
+\begin{codelisting}
+	\lstinputlisting[style=C++,caption=Person.h]{\basedir/Associations/Person.h}
+\end{codelisting}
+
+\begin{codesection}
+	\lstinputlisting[style=stdout,caption=Terminal]{\basedir/Associations/terminal.std}
+\end{codesection}
+
+\pagebreak
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\section{Templates}
+\label{sec:temps}
+\setcounter{lstlisting}{0}
+
+\emph{Template} je predložak ili šablona za klasu, strukturu ili funkciju. Može sadržavati \emph{type} parametar (\tottf{\textbf{typename}}), običan parametar ili sam template. Kompajer generira kod tijekom \emph{compile time} ovisno o tome koji su argumenti proslijeđenit tijekom korištenja koda.\\
+
+Cilj zadataka je implementirati stog, koji može biti definiran za bilo koji tip, koristeći \tottf{\textbf{template}}.
+
+\begin{codelisting}
+	\lstinputlisting[style=C++,firstline=6,lastline=21,caption=Stack klasa]{\basedir/Templates/Stack.h}
+\end{codelisting}
+
+\begin{codelisting}
+	\lstinputlisting[style=C++,firstline=39,lastline=46,caption=Stack.h: Primjer šablone za funkciju]{\basedir/Templates/Stack.h}
+\end{codelisting}
+
+\pagebreak
+
+\emph{Variadic template} sadržava parametre koji koriste \emph{rest} operator \tottf{...}, a ako se žele proširiti u normalni oblik, \emph{rest} operator se stavi kao sufiks na identifikator.
+
+\begin{codelisting}
+	\lstinputlisting[style=C++,caption=Variadic.h]{\basedir/Templates/Variadic.h}
+\end{codelisting}
+
+\begin{codesection}
+	\lstinputlisting[style=stdout,caption=Terminal]{\basedir/Templates/terminal.std}
+\end{codesection}
+
+\pagebreak
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\section{Variadics}
+\label{sec:vars}
+\setcounter{lstlisting}{0}
+
+\begin{codelisting}
+	\lstinputlisting[style=C++,caption=Templates.h]{\basedir/Variadics/Templates.h}
+\end{codelisting}
+
+\begin{codelisting}
+	\lstinputlisting[style=C++,caption=Program.cpp]{\basedir/Variadics/Program.cpp}
+\end{codelisting}
+
+\begin{codesection}
+	\begin{stdout}{Debug Window}{}
+'Variadics.exe' (Win32): Loaded 'C:\Users\Jakov\FESB\2. semestar\3D Simulacije\Izvještaji\vjezba2\Debug\Variadics.exe'. Symbols loaded.
+'Variadics.exe' (Win32): Loaded 'C:\Windows\SysWOW64\ntdll.dll'. 
+'Variadics.exe' (Win32): Loaded 'C:\Windows\SysWOW64\kernel32.dll'. 
+'Variadics.exe' (Win32): Loaded 'C:\Windows\SysWOW64\KernelBase.dll'. 
+'Variadics.exe' (Win32): Loaded 'C:\Windows\SysWOW64\vcruntime140d.dll'. 
+'Variadics.exe' (Win32): Loaded 'C:\Windows\SysWOW64\ucrtbased.dll'. 
+The thread 0x34ec has exited with code 0 (0x0).
+a b 
+'Variadics.exe' (Win32): Loaded 'C:\Windows\SysWOW64\kernel.appcore.dll'. 
+'Variadics.exe' (Win32): Loaded 'C:\Windows\SysWOW64\msvcrt.dll'. 
+'Variadics.exe' (Win32): Loaded 'C:\Windows\SysWOW64\rpcrt4.dll'. 
+The thread 0x3c08 has exited with code 0 (0x0).
+The thread 0x29ec has exited with code 0 (0x0).
+The program '[1696] Variadics.exe' has exited with code 0 (0x0).
+	\end{stdout}
+\end{codesection}
+
+
+\pagebreak
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\section{Perfect Forwarding}
+\label{sec:pf}
+\setcounter{lstlisting}{0}
+
+S obzirom da izrazi imaju i svoju vrijednosnu kategoriju, da bi se pravilno proslijedila kategorija preko \emph{template} argumenta, koristimo koncept \emph{universal reference}. Univerzalna referenca je parametar ili varijabla koja ima kao za svoj tip \tottf{T\&\&}.
+
+Pravila sažimanja reference:
+\begin{enumerate}
+	\item \tottf{T\& \&} postane \tottf{T\&}
+	\item \tottf{T\& \&\&} postane \tottf{T\&}
+	\item \tottf{T\&\& \&} postane \tottf{T\&}
+	\item \tottf{T\&\& \&\&} postane \tottf{T\&\&}
+\end{enumerate}
+
+\vspace{1.5em}
+
+Pravilo kod dedukcije \emph{template} argumenata:
+
+\begin{C++}{}{}
+template<typename T>	
+	void foo(T&&);
+\end{C++}
+
+\begin{enumerate}
+	\item Kad se \tottf{foo} proslijedi \emph{lvalue} tipa \tottf{A}, tad se \tottf{T} zamjeni sa \tottf{A\&}, a nakon primjene pravila sažimanja postane \tottf{A\&}
+	\item Kad se \tottf{foo} proslijedi \emph{rvalue} tipa \tottf{A}, tad se \tottf{T} zamjeni sa \tottf{A} a argument postane \tottf{A\&\&}
+\end{enumerate}
+
+\vspace{1.5em}
+
+\tottf{std::forward} uspješno prosljeđuje vrijednosnu kategoriju izraza, za razliku od \tottf{std::move} koji bezuvjetno pretvara izraz iz \emph{lvalue} kategoriju u \emph{rvalue}.
+
+
+\begin{codesection}
+\begin{C++}{std::forward}{stdforward}
+	template<class S>
+	S&& forward(typename remove_reference<S>::type& a) noexcept{
+		return static_cast<S&&>(a);
+	}
+\end{C++}
+\end{codesection}
+
+\begin{codesection}
+\begin{C++}{std::move}{stdmove}
+	template<class T>
+	typename remove_reference<T>::type&&
+	std::move(T&& a) noexcept{
+		typedef typename remove_reference<T>::type&& RvalRef;
+		return static_cast<RvalRef>(a);
+	}
+\end{C++}
+\end{codesection}
+
+\pagebreak
+
+\begin{codelisting}
+	\lstinputlisting[style=C++,firstline=7,lastline=17,caption=Functions.h: perfect forwarding]{\basedir/Perfect forwarding/Functions.h}
+\end{codelisting}
+
+\begin{codelisting}
+	\lstinputlisting[style=C++,firstline=19,lastline=23,caption=Functions.h: Variadic primjer]{\basedir/Perfect forwarding/Functions.h}
+\end{codelisting}
+
+
+\pagebreak
+\begin{codesection}
+	\lstinputlisting[style=stdout,caption=Terminal]{\basedir/Perfect forwarding/terminal.std}
+\end{codesection}
+
+
+\end{document}

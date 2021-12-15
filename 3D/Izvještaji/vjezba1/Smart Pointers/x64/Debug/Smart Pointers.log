@@ -1,0 +1,3 @@
+﻿  Program.cpp
+C:\Users\Jakov\FESB\2. semestar\3D Simulacije\Vježbe\Izvještaji\vjezba1\Smart Pointers\Program.cpp(10,13): warning C4326: return type of 'main' should be 'int' instead of 'void'
+  Smart Pointers.vcxproj -> C:\Users\Jakov\FESB\2. semestar\3D Simulacije\Vježbe\Izvještaji\vjezba1\x64\Debug\Smart Pointers.exe

@@ -1,0 +1,9 @@
+1. length: 0.999999
+2. length: 0.99994
+3. length: 0.942135
+4. length: 0
+5. length: 0
+6. length: 0
+a: 1.0001, b: 1
+Compare(a, b) = 1
+u and e near equal? true

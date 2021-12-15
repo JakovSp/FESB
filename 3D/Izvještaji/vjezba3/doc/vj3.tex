@@ -1,0 +1,191 @@
+\input{~/Documents/LatexPresets/programming/preambule.tex}
+\usepackage{mathtools}
+\usepackage{amssymb}
+
+\newcommand{\basedir}{~/FESB/2. semestar/3D Simulacije/Izvještaji/vjezba3}
+\title{Vježba L02}
+\author{Jakov Spahija}
+
+\begin{document}
+\maketitle
+\vspace{15em}
+\tableofcontents
+\pagebreak
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\section{Vectors and Matrices}
+\label{sec:vecmat}
+\setcounter{lstlisting}{0}
+
+\begin{codelisting}
+	\lstinputlisting[style=C++,firstline=28,lastline=66,caption=Vector4 operatori]{\basedir/Vectors and Matrices/Vector4.h}
+\end{codelisting}
+
+\pagebreak
+
+\begin{codelisting}
+	\lstinputlisting[style=C++,firstline=68,caption=Vector4 operacije]{\basedir/Vectors and Matrices/Vector4.h}
+\end{codelisting}
+
+\begin{codelisting}
+	\lstinputlisting[style=C++,firstline=26,lastline=31,caption=Matrix4x4 operator{[]}]{\basedir/Vectors and Matrices/Matrix4x4.h}
+\end{codelisting}
+
+\pagebreak
+
+\begin{codelisting}
+	\lstinputlisting[style=C++,firstline=50,lastline=61,caption=Matrix4x4 mul]{\basedir/Vectors and Matrices/Matrix4x4.h}
+\end{codelisting}
+
+\begin{codesection}
+	\lstinputlisting[style=stdout,caption=Terminal]{\basedir/Vectors and Matrices/terminal.std}
+\end{codesection}
+
+\pagebreak
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\section{Vertices and Models}
+\label{sec:vertmod}
+\setcounter{lstlisting}{0}
+
+\begin{codelisting}
+	\lstinputlisting[style=C++,firstline=6,caption=Model.h]{\basedir/Vertices and Models/Model.h}
+\end{codelisting}
+
+\begin{codesection}
+	\lstinputlisting[style=stdout,caption=Terminal]{\basedir/Vertices and Models/terminal.std}
+\end{codesection}
+
+\pagebreak
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\section{Transforms}
+\label{sec:transf}
+\setcounter{lstlisting}{0}
+
+\subsection{World Transform}
+
+\[
+S = \begin{pmatrix}
+s_x & 0 & 0 & 0\\
+0 & s_y & 0 & 0\\
+0 & 0 & s_z & 0\\
+0 & 0 & 0 & 1
+\end{pmatrix};
+R_z = \begin{pmatrix}
+cos(\theta) & 0 & -sin(\theta) & 0\\
+0 & 1 & 0 & 0\\
+sin(\theta) & 0 & cos(\theta) & 0\\
+0 & 0 & 0 & 1
+\end{pmatrix};
+T = \begin{pmatrix}
+s_x & 0 & 0 & 0\\
+0 & s_y & 0 & 0\\
+0 & 0 & s_z & 0\\
+0 & 0 & 0 & 1
+\end{pmatrix};
+\]
+
+\[W = S * R * T\]
+
+\begin{codesection}
+	\lstinputlisting[style=C++,firstline=6,lastline=31,caption=World Transform]{\basedir/Vertices and Models/Transforms.h}
+\end{codesection}
+
+\pagebreak
+
+\subsection{Camera Transform}
+
+Matrica pogleda, se sastavlja poznavajući poziciju kamere \emph{eye}, poziciju točke na koju se gleda \emph{target}, vektor orijentacije prema gore \emph{up}.\\
+
+Nova orijentacija kamere su vektori \textbf{r}, \textbf{u}, \textbf{v}, a pozicija kamere $\textbf{t} = \textbf{eye}$.\\\\
+$\textbf{v} = (\textbf{target} - \textbf{eye})/\| \textbf{target} - \textbf{eye} \|$\\
+$\textbf{r} = (\textbf{up} \times \textbf{v})/\| \textbf{up} \times \textbf{v} \|$\\
+$\textbf{u} = (\textbf{r} \times \textbf{v})$
+
+\[
+M = 
+\underbrace{
+		\begin{pmatrix}
+		r_x & u_x & v_x & 0\\
+		r_y & u_y & v_y & 0\\
+		r_z & u_z & v_z & 0\\
+		0 & 0 & 0 & 1
+		\end{pmatrix}
+	}_\text{matrica prijelaza}
+\underbrace{
+		\begin{pmatrix}
+		1 & 0 & 0 & 0\\
+		0 & 1 & 0 & 0\\
+		0 & 0 & 1 & 0\\
+		-t_x & -t_y & -t_z & 1
+		\end{pmatrix}
+	}_\text{translacija}
+=
+\begin{pmatrix}
+r_x & u_x & v_x & 0\\
+r_y & u_y & v_y & 0\\
+r_z & u_z & v_z & 0\\
+-\textbf{t} \cdot \textbf{r} & -\textbf{t} \cdot \textbf{r} & -\textbf{t} \cdot \textbf{r} & 1
+\end{pmatrix}
+\]
+
+\begin{codesection}
+	\lstinputlisting[style=C++,firstline=33,lastline=45,caption=View Matrix]{\basedir/Vertices and Models/Transforms.h}
+\end{codesection}
+
+Matrica projekcije se sastavlja pomoću:
+\begin{itemize}
+	\item \emph{n} - near plane
+	\item \emph{f} - far plane
+	\item \emph{r} - aspect ratio
+	\item \emph{$\alpha$} - FOV
+\end{itemize}
+
+\[
+P =
+\begin{pmatrix}
+\frac{1}{r \tan(\frac{\alpha}{2})} & 0 & 0 & 0\\
+0 & \frac{1}{\tan(\frac{\alpha}{2})} & 0 & 0\\
+0 & 0 & \frac{f}{f-n} & 0\\
+0 & 0 & -\frac{nf}{f-n} & 0
+\end{pmatrix}
+\]
+
+\pagebreak
+
+\begin{codesection}
+	\lstinputlisting[style=C++,firstline=47,lastline=54,caption=Projection Matrix]{\basedir/Vertices and Models/Transforms.h}
+\end{codesection}
+
+\subsection{Screen Mapping}
+
+Normaliziran prostor NDC se projicira na zaslon, to uključuje sljedeće parametre:
+\begin{itemize}
+\item $w$ - visina zaslona
+\item $h$ - širina zaslona
+\item $x_t$ - gornje-lijeva x kooridnata zaslona
+\item $y_t$ - gornje-lijeva y kooridnata zaslona
+\item $d_m$ - minimalna z vrijednost NDC mapiranja
+\item $d_M$ - maximalna z vrijednost NDC mapiranja
+\end{itemize}
+
+\[
+S =
+\begin{pmatrix}
+\frac{w}{2} & 0 & 0 & 0\\
+0 & -\frac{h}{2} & 0 & 0\\
+0 & 0 & d_M - d_m & 0\\
+x_t + \frac{w}{2} & y_t + \frac{h}{2} & d_m & 1
+\end{pmatrix}
+\]
+
+\begin{codesection}
+	\lstinputlisting[style=C++,firstline=56,lastline=63,caption=Viewport Matrix]{\basedir/Vertices and Models/Transforms.h}
+\end{codesection}
+
+\pagebreak
+
+\begin{codesection}
+	\lstinputlisting[style=stdout,caption=Terminal]{\basedir/Screen Mapping/terminal.std}
+\end{codesection}
+
+\end{document}

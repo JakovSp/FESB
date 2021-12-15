@@ -1,0 +1,6 @@
+﻿C:\Program Files (x86)\Microsoft Visual Studio\2019\Enterprise\MSBuild\Microsoft\VC\v160\Microsoft.CppBuild.targets(519,5): warning MSB8028: The intermediate directory (x64\Debug\) contains files shared from another project (vjezba1.vcxproj).  This can lead to incorrect clean and rebuild behavior.
+  Circle.cpp
+C:\Users\Jakov\FESB\2. semestar\3D Simulacije\Vježbe\Izvještaji\vjezba1\vjezba1\Circle.cpp(1,1): warning C4828: The file contains a character starting at offset 0x18b that is illegal in the current source character set (codepage 65001).
+  Program.cpp
+C:\Users\Jakov\FESB\2. semestar\3D Simulacije\Vježbe\Izvještaji\vjezba1\vjezba1\Helpers.h(1,1): warning C4828: The file contains a character starting at offset 0x29 that is illegal in the current source character set (codepage 65001).
+  vjezba1.vcxproj -> C:\Users\Jakov\FESB\2. semestar\3D Simulacije\Vježbe\Izvještaji\vjezba1\x64\Debug\Types and Objects.exe

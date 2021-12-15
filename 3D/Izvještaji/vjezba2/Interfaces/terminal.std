@@ -1,0 +1,10 @@
+Balance: 100
+Deposit: 100
+Withdraw: 100
+Balance: 100
+~IAccount
+Balance: 1000
+Deposit: 100
+Withdraw: 100
+Balance: 1000
+~IAccount

@@ -1,0 +1,8 @@
+\babel@toc {croatian}{}
+\contentsline {section}{\numberline {1}Interfaces}{2}{}%
+\contentsline {section}{\numberline {2}Operators}{4}{}%
+\contentsline {section}{\numberline {3}Associations}{6}{}%
+\contentsline {section}{\numberline {4}Templates}{8}{}%
+\contentsline {section}{\numberline {5}Variadics}{10}{}%
+\contentsline {section}{\numberline {6}Perfect Forwarding}{12}{}%
+\contentsfinish 

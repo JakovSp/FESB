@@ -1,0 +1,19 @@
+Prenesena vrijednost: 1
+Prenesena vrijednost: 2
+Prenesena vrijednost: 3
+Prenesena vrijednost: 1
+Prenesena vrijednost: 2
+
+Broj parametara: 1
+Konstruktor Something()
+SmartPtr::operator->()
+Vrijednost: 10
+
+Broj parametara: 3
+Konstruktor Nešto()
+SmartPtr::operator->()
+SmartPtr::operator->()
+SmartPtr::operator->()
+Vrijednost: 10 29.98 abc
+Destruktor ~Nešto()
+Destrkutor ~Something()

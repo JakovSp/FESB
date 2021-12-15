@@ -1,0 +1,48 @@
+\DeclareCaptionLabelFormat{listing}{Prijepis \thesection.#2.}
+\DeclareCaptionLabelSeparator{listing}{ }
+\DeclareCaptionFont{white}{\bf\sffamily\color{white}}
+\DeclareCaptionFont{codesection}{\bf\ttfamily\color{white}}
+\DeclareCaptionLabelFormat{continued}{#1#2}
+\DeclareCaptionFormat{codesection}{%
+	\colorbox{gray}{%
+		\fbox{%
+		\begin{minipage}{0.9158\textwidth}
+			\vspace{4pt}
+			\flushright
+				#3
+			\vspace{4pt}
+		\end{minipage}
+	}}}
+\DeclareCaptionStyle{codesection}[]{%
+		format=codesection,
+		labelseparator=listing,
+		%labelformat=listing,
+		%labelfont=white,
+		textfont=codesection,
+		margin=15.5pt,
+	}
+\DeclareCaptionFormat{listing}{%
+	\colorbox{gray}{%
+		\fbox{%
+		\begin{minipage}{0.9158\textwidth}
+			\vspace{4pt}
+			\hspace{4pt}
+				#1#2#3
+			\vspace{4pt}
+		\end{minipage}
+	}}}
+\DeclareCaptionStyle{listing}[]{%
+		format=listing,
+		labelseparator=listing,
+		labelformat=listing,
+		labelfont=white,
+		textfont=white,
+		margin=15.5pt,
+	}
+\newcommand{\setlstcaption}[1]{%
+	\captionsetup[lstlisting]{
+		style=#1,
+		justification=raggedright,
+		singlelinecheck=off,
+		}
+}

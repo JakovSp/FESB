@@ -1,0 +1,8 @@
+Konstruktor Boss(): Paulie Walnuts
+Konstruktor Mafia(): Naša
+Buisness: Igračke
+Dekonstruktor ~Mafia(): Naša
+Konstruktor Date(): 14 | 2 | 1988
+Konstruktor Person(): Tony Baloney
+Dekonstruktor ~Person(): Tony Baloney
+Dekonstruktor ~Boss(): Paulie Walnuts

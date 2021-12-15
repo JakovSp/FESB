@@ -1,0 +1,53 @@
+\lstdefinestyle{default}{%
+	basicstyle=\small\ttfamily\linespread{1.1},
+	breaklines=true,
+	inputencoding=ansinew,
+	columns=fullflexible,
+	rulecolor=\color{black},
+	xleftmargin=25pt,
+	xrightmargin=25.5pt,
+	frame=single,
+	framesep=9pt,
+	belowcaptionskip=0pt,
+	showstringspaces=false,
+		literate={ć}{{\'{c}}}1{č}{{\v{c}}}1{đ}{{\dj{}}}1{š}{{\v{s}}}1{ž}{{\v{z}}}1{Ć}{{\'{C}}}1{Č}{{\v{C}}}1{Š}{{\v{S}}}1{Ž}{{\v{Z}}}1,
+}
+\lstdefinestyle{code}{%
+	style=default,
+	stringstyle=\it\ttfamily,
+	commentstyle=\it\ttfamily\color{comment},
+	numbers=left,
+	numbersep=1.5em,
+	numberstyle=\bf\small\ttfamily\color{darkgray},
+	mathescape,
+	backgroundcolor=\color{code},
+	firstnumber=\lst@firstline,
+}
+\lstdefinestyle{stdout}{%
+	style=default,
+	backgroundcolor=\color{console},
+}
+\lstnewenvironment{stdout}[2]{%
+	\lstset{%
+		style=stdout,
+		caption={#1},
+		label=#2,
+		}}%
+	{}
+\lstdefinestyle{C++}{%
+	style=code,
+	language=C++,
+}
+
+\newenvironment{codelisting}{%
+	\setlstcaption{listing}
+	\vspace{1em}
+}
+{\vspace{1em}}
+
+\newenvironment{codesection}{%
+	\setlstcaption{codesection}
+	\addtocounter{lstlisting}{-1}
+	\vspace{1em}
+}
+{\vspace{1em}}

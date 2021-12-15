@@ -1,0 +1,28 @@
+Šef
+Menadžer() Šef,10000.000000
+Tip: class com::Manager
+
+Ana
+Zaposlenik() Ana, 17600.000000
+Zoi
+Zaposlenik() Zoi, 35200.000000
+Žak
+Zaposlenik() Žak, 52800.000000
+stuff:
+Šef,10000.000000
+Ana, 17600.000000
+Zoi, 35200.000000
+Žak, 52800.000000
+
+DŽo
+~Zaposlenik() DŽo
+Pla?a: 10000.000000
+
+~Menadžer() Šef,10000.000000
+~Zaposlenik() Šef
+~Radnik() Ana, 17600.000000
+~Zaposlenik() Ana
+~Radnik() Zoi, 35200.000000
+~Zaposlenik() Zoi
+~Radnik() Žak, 52800.000000
+~Zaposlenik() Žak

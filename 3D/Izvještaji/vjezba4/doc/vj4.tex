@@ -1,0 +1,149 @@
+\input{~/Documents/LatexPresets/programming/preambule.tex}
+%\usepackage{mathtools}
+%\usepackage{amssymb}
+\usepackage{hyperref}
+\usepackage[perpage,bottom]{footmisc}
+
+\newcommand{\basedir}{~/FESB/2. semestar/3D Simulacije/Izvještaji/vjezba4}
+\title{Vježba L03}
+\author{Jakov Spahija}
+
+\begin{document}
+\maketitle
+\vspace{15em}
+\tableofcontents
+\pagebreak
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\section{DXM Math}
+\label{sec:math}
+\setcounter{lstlisting}{0}
+
+Ugrađene definicije funkcije od strane kompajlera \emph{intrinsics}, postoje za SIMD registre.  Intrinzički tipovi \tottf{\_m64}, \tottf{\_m128}, \tottf{\_m256} i \tottf{\_m512} definiraju SIMD tipove za 64-bit XMM, 128-bit MMX, 256-bit YMM te 512-bit ZMM registre, respektivno\footnote{\url{https://www.agner.org/optimize/calling_conventions.pdf} \textit{7.2 Passing and returning SMID types}}.
+
+\tottf{DirectXMath.h} koristi \tottf{xmmintrin.h} za intrinzičke tipove.\\
+
+\tottf{\_\_vectorcall} konvencija poziva koja je definirana za SIMD, koja za razliku od zadane \tottf{\_\_cdecl} konvencije, učitava veći broj argumenata direktno u dodatne XMM registre, koji su posebni SSE registri\footnote{\url{https://en.wikipedia.org/wiki/Advanced_Vector_Extensions\#Advanced_Vector_Extensions}}.\\
+
+Eksplicitno je zabranjeno korištenje liste argumenata varijabilne dužine, jer kao i kod \tottf{\_\_stdcall}, pozvana funkcija nema informaciju o broju argumenata koji su proslijeđeni na stog, pa nije u stanju brisati argumente sa stoga.\\
+
+\begin{codesection}
+	\lstinputlisting[style=C++,numbers=none,firstline=10,lastline=14,caption=\_\_vectorcall konvencija]{\basedir/DXM Vectors/Functions.h}
+\end{codesection}
+\tottf{XM\_CALLCONV} se unutar DirectXMath definira kao \tottf{\_\_vectorcall}.\\
+
+Prvih šest argumenata se mogu proslijediti direktno u registre, koji se prenose po vrijednosti, dok se ostali proslijeđuju po referenci\footnote{\url{https://docs.microsoft.com/en-us/windows/win32/dxmath/pg-xnamath-internals\#calling-conventions}}:
+
+\begin{codesection}
+\begin{C++}{rezolucija argumenata za \_\_vectorcall na x64 platformi}{}
+typedef const XMVECTOR  FXMVECTOR;
+typedef const XMVECTOR  GXMVECTOR;
+typedef const XMVECTOR  HXMVECTOR;
+typedef const XMVECTOR& CXMVECTOR;
+typedef const XMMATRIX  FXMMATRIX;
+typedef const XMMATRIX& CXMMATRIX;
+\end{C++}
+\end{codesection}
+
+\pagebreak
+
+\tottf{XMLoad} funkcije se koriste da bi se \tottf{XM} tipovima predali podaci varijabli koje su definirani sa intrizičkim tipovima SSE registara. Podaci se prenose preko pokazivača, a \tottf{XMLoad} funkcije samo referenciraju podatke bez kopiranja.
+
+\begin{codelisting}
+	\lstinputlisting[style=C++,firstline=1205,lastline=1212,caption=DirectXMathConvert.inl: SSE XMLoadFloat4x4]{C:\\Program Files (x86)\\Windows Kits\\10\\Include\\10.0.19041.0\\um\\DirectXMathConvert.inl}
+\end{codelisting}
+
+\pagebreak
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\section{DXM Vectors}
+\label{sec:vec}
+\setcounter{lstlisting}{0}
+
+\begin{codelisting}
+	\lstinputlisting[style=C++,caption=Functions.h]{\basedir/DXM Vectors/Functions.h}
+\end{codelisting}
+
+\QandA
+{Notice that XMVector3Length returns a vector. How can you get the length as a scalar value?}
+{}
+
+\begin{codesection}
+	\lstinputlisting[style=C++,firstline=17,lastline=18,caption=Program.cpp]{\basedir/DXM Vectors/Program.cpp}
+\end{codesection}
+
+\begin{codesection}
+	\lstinputlisting[style=stdout,caption=Terminal]{\basedir/DXM Vectors/terminal.std}
+\end{codesection}
+
+\pagebreak
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\section{DXM Matrices}
+\label{sec:mat}
+\setcounter{lstlisting}{0}
+
+\begin{codelisting}
+	\lstinputlisting[style=C++,firstline=10,lastline=23,caption=Functions.h]{\basedir/DXM Matrices/Functions.h}
+\end{codelisting}
+
+\begin{codelisting}
+	\lstinputlisting[style=C++,firstline=16,lastline=38,caption=Program.cpp]{\basedir/DXM Matrices/Program.cpp}
+\end{codelisting}
+
+\pagebreak
+
+\QandA
+{Is the dynamically created vector 16-byte aligned?}
+{Nije nužno, jer je tip \tottf{\textbf{struct} XMMATRIX} definiran sa \tottf{\textbf{\_\_declspec}(\textbf{align}(16))} načinom skladištenja. Alociranje takvog objekta na \emph{heap} memoriji se mora obavljati pomoću \tottf{\textbf{\_aligned\_malloc}}\footnote{\url{https://docs.microsoft.com/en-us/cpp/error-messages/compiler-warnings/compiler-warning-level-3-c4316}} ili nekakve druge metode\footnote{\url{https://docs.microsoft.com/en-us/windows/win32/api/memoryapi/nf-memoryapi-virtualalloc}}. Dok je na stogu (na x64 platofrmi) sve poredano po 16 byte blokovima.}
+
+\begin{codesection}
+	\lstinputlisting[style=C++,firstline=454,lastline=459,caption=DirectXMath.h]{C:\\Program Files (x86)\\Windows Kits\\10\\Include\\10.0.19041.0\\um\\DirectXMath.h}
+\end{codesection}
+
+
+\begin{codesection}
+	\lstinputlisting[style=stdout,caption=Terminal]{\basedir/DXM Matrices/terminal.std}
+\end{codesection}
+
+\pagebreak
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\section{Precision}
+\label{sec:prec}
+\setcounter{lstlisting}{0}
+
+\begin{codesection}
+	\lstinputlisting[style=stdout,caption=Terminal]{\basedir/Precision/terminal.std}
+\end{codesection}
+
+\pagebreak
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\section{DXM Transforms}
+\label{sec:tf}
+\setcounter{lstlisting}{0}
+
+U ovom zadatku cilj je implementirati cjevovod kao u prošloj vježbi koristeći DirectXMath modul sa njegovim funckijama koje generiraju matrice transofrmacije, te DirectX specifičnim tipovima koji se služe CPU intrizikom za SSE.
+
+\begin{codelisting}
+	\lstinputlisting[style=C++,firstline=6,lastline=17,caption=Pipline.h: Primjer implementacije Transform()]{\basedir/DXM Transforms/Pipeline.h}
+\end{codelisting}
+
+\QandA
+{In which space is the object after the last transform?}
+{U NDC prostoru.}
+
+\begin{codelisting}
+	\lstinputlisting[style=C++,firstline=40,lastline=55,caption=Primjena inverzne transformacije]{\basedir/DXM Transforms/Program.cpp}
+\end{codelisting}
+
+\pagebreak
+
+\begin{codesection}
+	\lstinputlisting[style=stdout,caption=Terminal]{\basedir/DXM Transforms/terminal.std}
+\end{codesection}
+
+\pagebreak
+
+\end{document}
